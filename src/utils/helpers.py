@@ -2,9 +2,15 @@ import logging
 import os
 from datetime import datetime
 import cv2
+from typing import List
 
-def setup_logging():
-    """Setup logging configuration."""
+def setup_logging() -> logging.Logger:
+    """
+    Setup logging configuration.
+    
+    Returns:
+        logging.Logger: Configured logger instance
+    """
     # Create logs directory if it doesn't exist
     if not os.path.exists('logs'):
         os.makedirs('logs')
@@ -22,8 +28,13 @@ def setup_logging():
     
     return logging.getLogger(__name__)
 
-def get_camera_devices():
-    """Get list of available camera devices."""
+def get_camera_devices() -> List[int]:
+    """
+    Get list of available camera devices.
+    
+    Returns:
+        List[int]: List of available camera indices
+    """
     devices = []
     for i in range(10):  # Check first 10 indices
         cap = cv2.VideoCapture(i)
@@ -32,7 +43,7 @@ def get_camera_devices():
             cap.release()
     return devices
 
-def calculate_gesture_confidence(landmarks, gesture_type):
+def calculate_gesture_confidence(landmarks, gesture_type: str) -> float:
     """
     Calculate confidence score for a detected gesture.
     

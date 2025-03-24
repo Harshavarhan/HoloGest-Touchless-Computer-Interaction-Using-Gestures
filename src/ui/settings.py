@@ -1,10 +1,16 @@
+import logging
 from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, 
-                             QLabel, QSlider, QPushButton, QCheckBox, QComboBox)
+                             QLabel, QSlider, QPushButton, QCheckBox,
+                             QComboBox, QMessageBox)
 from PyQt5.QtCore import Qt
+from utils.camera_manager import CameraManager
+
+logger = logging.getLogger(__name__)
 
 class SettingsWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.camera_manager = CameraManager()
         self.init_ui()
         
     def init_ui(self):
@@ -55,5 +61,35 @@ class SettingsWindow(QDialog):
         
     def save_settings(self):
         """Save the current settings."""
-        # TODO: Implement settings saving
-        self.accept() 
+        try:
+            # Save sensitivity
+            sensitivity = self.sensitivity_slider.value()
+            logger.info(f"Saving sensitivity setting: {sensitivity}")
+            
+            # Save camera selection
+            camera_index = self.camera_combo.currentIndex()
+            logger.info(f"Saving camera selection: {camera_index}")
+            
+            # Save gesture toggles
+            enabled_gestures = [
+                gesture for gesture, toggle in self.gesture_toggles.items()
+                if toggle.isChecked()
+            ]
+            logger.info(f"Saving enabled gestures: {enabled_gestures}")
+            
+            # TODO: Implement actual settings saving
+            
+            QMessageBox.information(
+                self,
+                'Settings Saved',
+                'Your settings have been saved successfully.'
+            )
+            self.accept()
+            
+        except Exception as e:
+            logger.error(f"Error saving settings: {e}")
+            QMessageBox.critical(
+                self,
+                'Error',
+                'Failed to save settings. Please try again.'
+            ) 

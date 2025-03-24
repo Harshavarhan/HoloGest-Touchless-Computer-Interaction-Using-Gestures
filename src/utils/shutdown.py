@@ -2,10 +2,11 @@ import os
 import platform
 import subprocess
 import logging
+from typing import bool
 
 logger = logging.getLogger(__name__)
 
-def shutdown_system():
+def shutdown_system() -> bool:
     """
     Shutdown the system safely.
     
