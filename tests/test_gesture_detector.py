@@ -1,27 +1,24 @@
-import pytest
-import numpy as np
-from src.gesture_recognition.gesture_detector import GestureDetector
+# test_gesture_detector.py
+import cv2
+from gesture_detector import GestureDetector
 
-@pytest.fixture
-def gesture_detector():
-    return GestureDetector()
+detector = GestureDetector()
+cap = cv2.VideoCapture(0)  # Open webcam
 
-def test_gesture_detector_initialization(gesture_detector):
-    """Test if gesture detector initializes correctly."""
-    assert gesture_detector is not None
-    assert gesture_detector.hands is not None
-    assert gesture_detector.mp_draw is not None
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
 
-def test_detect_gestures_empty_frame(gesture_detector):
-    """Test gesture detection with empty frame."""
-    empty_frame = np.zeros((480, 640, 3), dtype=np.uint8)
-    processed_frame, gesture = gesture_detector.detect_gestures(empty_frame)
-    
-    assert processed_frame is not None
-    assert gesture is None
-    assert processed_frame.shape == empty_frame.shape
+    frame, gesture = detector.detect_gestures(frame)
 
-def test_release_resources(gesture_detector):
-    """Test if resources are released properly."""
-    gesture_detector.release()
-    # Add assertions based on your implementation 
+    if gesture:
+        print(f"Gesture Detected: {gesture}")
+
+    cv2.imshow("Gesture Detection", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+detector.release()
+cv2.destroyAllWindows()

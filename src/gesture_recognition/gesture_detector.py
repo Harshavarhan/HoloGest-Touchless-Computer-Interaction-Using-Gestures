@@ -90,3 +90,4 @@ class GestureDetector:
         """Release resources."""
         self.hands.close()
         logger.info("Gesture detector resources released") 
+        print("Gesture Detector Started")
