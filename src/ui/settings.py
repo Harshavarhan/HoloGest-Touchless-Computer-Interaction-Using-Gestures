@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout,
                              QLabel, QSlider, QPushButton, QCheckBox,
                              QComboBox, QMessageBox)
 from PyQt5.QtCore import Qt
-from utils.camera_manager import CameraManager
+from src.utils.camera_manager import CameraManager
+
 
 logger = logging.getLogger(__name__)
 
@@ -92,4 +93,4 @@ class SettingsWindow(QDialog):
                 self,
                 'Error',
                 'Failed to save settings. Please try again.'
-            ) 
+            )

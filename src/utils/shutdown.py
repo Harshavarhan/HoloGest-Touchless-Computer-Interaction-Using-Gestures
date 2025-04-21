@@ -2,7 +2,7 @@ import os
 import platform
 import subprocess
 import logging
-from typing import bool
+
 
 logger = logging.getLogger(__name__)
 
